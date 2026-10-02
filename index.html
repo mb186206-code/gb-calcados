@@ -28,7 +28,8 @@
 :root[data-theme="dark"]{--preto:#000;--osso:#f3f1ec}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(80px + env(safe-area-inset-top,0px));background:var(--preto)}
-body{margin:0;background:var(--preto);color:var(--osso);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{-webkit-tap-highlight-color:transparent;margin:0;background:var(--preto);color:var(--osso);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
 img,svg{max-width:100%;display:block}
 .sprite{position:absolute;width:0;height:0;overflow:hidden}
 a{color:inherit;text-decoration:none}
@@ -121,6 +122,7 @@ h2{font-size:clamp(3rem,6vw,4.5rem);line-height:.95;margin:0}
 
 /* dialog */
 dialog{margin:auto;width:min(920px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto;border:0;padding:0;background:transparent;color:var(--osso);border-radius:20px}
+body:has(dialog[open]){overflow:hidden}
 dialog::backdrop{background:rgba(0,0,0,.75);backdrop-filter:blur(4px)}
 .dlg{display:grid;border:1px solid var(--linha);background:var(--carvao);border-radius:20px;overflow:hidden}
 @media(min-width:768px){.dlg{grid-template-columns:1.15fr 1fr}}
@@ -154,7 +156,7 @@ legend{padding:0;margin-bottom:12px;font-size:14px;color:var(--cinza)}
 @media(min-width:1024px){.vit-grid{grid-template-columns:400px 1fr;grid-template-areas:"lado palco";gap:40px;align-items:start}}
 .vit-lado{grid-area:lado;display:contents}
 @media(min-width:1024px){.vit-lado{display:flex;flex-direction:column;gap:10px}}
-.vit-pills{grid-area:pills;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:none}
+.vit-pills{grid-area:pills;position:relative;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:none}
 .vit-pills::-webkit-scrollbar{display:none}
 @media(min-width:1024px){.vit-pills{flex-direction:column;overflow:visible;padding:0}}
 .vit-pill{scroll-snap-align:start;flex:none;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 20px 0 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-weight:600;font-size:16px;color:var(--osso);transition:background .25s,border-color .25s}
@@ -238,6 +240,81 @@ footer{border-top:1px solid var(--linha);padding-top:48px;padding-bottom:48px}
 .flutuante{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:30;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--zap);color:#fff;box-shadow:0 10px 30px rgba(31,168,85,.45)}
 .flutuante svg{width:28px;height:28px}
 @media(min-width:768px){.flutuante{display:none}}
+
+
+/* ===== celular: versão compacta (iOS e Android) ===== */
+@media (max-width:640px){
+  body{font-size:16px}
+  .bar{height:62px}
+  .selo{width:36px;height:36px}
+  .logo b{font-size:16px}
+  .logo small{display:none}
+  .hero{padding-top:28px;padding-bottom:36px}
+  .hero-grid{gap:28px}
+  h1{font-size:clamp(2.9rem,14.5vw,4rem);line-height:.9}
+  .lead{margin-top:16px;font-size:16px}
+  .acoes{margin-top:22px;gap:10px}
+  .btn-ouro,.btn-linha{height:48px;padding:0 20px;font-size:15px}
+  .palco{max-width:400px;padding-top:0}
+  .caixa .tampa{height:14px}
+  .legenda{margin-top:12px;font-size:13px}
+  .faixa .item{padding:12px 0}
+  .faixa .t{font-size:15px}
+  .faixa .s{font-size:13px}
+  section.bloco{padding-top:52px;padding-bottom:52px}
+  h2{font-size:clamp(2.4rem,11vw,3rem)}
+  .sub{font-size:16px;margin-top:8px}
+  .cat-topo{gap:18px}
+  .filtros{flex-wrap:nowrap;overflow-x:auto;margin:0 -20px;padding:0 20px 2px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .filtros::-webkit-scrollbar{display:none}
+  .filtro{flex:none;height:38px}
+  .grade{margin-top:24px;gap:18px 12px}
+  .card .foto{border-radius:14px 14px 0 0;padding:0 4px}
+  .etiqueta{border-radius:0 0 14px 14px;padding:9px 11px 11px 14px}
+  .etiqueta::before{width:4px;border-bottom-left-radius:14px}
+  .etiqueta .meta{font-size:10px}
+  .etiqueta .nome{font-size:19px;margin-top:4px}
+  .etiqueta .cor{font-size:13px}
+  .etiqueta .rodape{margin-top:8px;padding-top:8px}
+  .etiqueta .preco{font-size:15px}
+  .etiqueta .ver{font-size:13px}
+  .vit-grid{margin-top:24px;gap:16px}
+  .vit-palco{border-radius:20px;aspect-ratio:5/4}
+  .vit-chip{left:12px;bottom:12px;height:32px;font-size:13px}
+  .vit-nav{right:10px;bottom:10px}
+  .vit-nav button{width:38px;height:38px}
+  .vit-resumo{margin-top:14px;gap:12px}
+  .vit-resumo>div{width:100%}
+  .vit-resumo .r1{font-size:26px}
+  .cta-vit{width:100%;height:50px}
+  .vit-pills{margin:0 -20px;padding:0 20px 2px}
+  .vit-pill{height:44px;font-size:15px}
+  .vit-card{padding:18px;border-radius:20px}
+  .vit-card h3{font-size:19px}
+  .vit-card .txt{font-size:15px}
+  .swatches{gap:8px;margin-top:14px}
+  .op{height:40px;padding:0 14px}
+  .passos{margin-top:28px;gap:26px}
+  .passos .n{font-size:44px}
+  .passos h3{margin-top:10px;font-size:20px}
+  .passos p{font-size:16px}
+  .duv-grid{gap:28px}
+  .btn-med{margin-top:18px}
+  details{padding:16px 0}
+  summary{font-size:17px}
+  details p{font-size:16px}
+  footer{padding-top:36px;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .foot{gap:20px}
+  .flutuante{width:52px;height:52px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+  /* janela do produto vira "gaveta" que sobe de baixo */
+  dialog{width:100%;max-width:100%;max-height:92dvh;margin:auto 0 0;border-radius:20px 20px 0 0}
+  .dlg{border-radius:20px 20px 0 0;border-bottom:0}
+  .dlg-foto{min-height:0;padding:18px 24px}
+  .dlg-foto svg{max-width:300px}
+  .dlg-info{gap:16px;padding:18px 20px calc(20px + env(safe-area-inset-bottom,0px))}
+  .dlg-nome{font-size:32px}
+  .dlg-preco{font-size:26px}
+}
 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>

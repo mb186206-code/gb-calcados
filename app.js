@@ -177,8 +177,15 @@ function renderVit(){
   document.getElementById("vit-r2").textContent = `${c.nome}${vit.num?`, número ${vit.num}`:""}. R$ 000,00`;
   elCta.href = linkZap(`Olá! Vi no site e quero encomendar o ${m.nome} na cor ${c.nome.toLowerCase()}${vit.num?`, número ${vit.num}`:""}. Pode me passar valor e prazo?`);
   aplicarZoom();
-  const ativa = elPills.querySelector('[aria-expanded="true"]');
-  if(ativa && !ehDesk()) ativa.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  centralizarPill();
+}
+// Centraliza a pílula ativa rolando SÓ a faixa horizontal, nunca a página.
+function centralizarPill(){
+  if(ehDesk()) return;
+  const a = elPills.querySelector('[aria-expanded="true"]');
+  if(!a) return;
+  const alvo = a.offsetLeft - (elPills.clientWidth - a.offsetWidth) / 2;
+  elPills.scrollTo({left: Math.max(0, alvo), behavior: "smooth"});
 }
 function irPara(i){ vit.det = (i+detalhes.length)%detalhes.length; renderVit(); }
 elPills.addEventListener("click", e=>{const b=e.target.closest("[data-det]"); if(b) irPara(+b.dataset.det);});
@@ -196,5 +203,12 @@ document.getElementById("vit-prox").onclick=()=>irPara(vit.det+1);
 let x0=null; const palco=document.getElementById("vit-palco");
 palco.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
 palco.addEventListener("touchend",e=>{if(x0===null)return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>40) irPara(vit.det+(dx<0?1:-1)); x0=null;});
-addEventListener("resize",()=>renderVit());
+// Só redesenha quando cruza o ponto de quebra desktop/celular.
+// No celular a barra de endereço some/aparece ao rolar e dispara "resize":
+// redesenhar nesse momento fazia a página pular de volta para a vitrine.
+let eraDesk = ehDesk();
+addEventListener("resize", () => {
+  const agora = ehDesk();
+  if (agora !== eraDesk) { eraDesk = agora; renderVit(); }
+}, {passive:true});
 desenharTenis(); renderVit();
